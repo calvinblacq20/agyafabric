@@ -1,0 +1,268 @@
+/* ==========================================================================
+   UNCLE AGYA — TEXTILE HOUSE, ACCRA
+   Design system: editorial grotesque, raw-calico ground, kente accent.
+   ========================================================================== */
+
+/* --- 1. Tokens ---------------------------------------------------------- */
+
+:root {
+  /* Ground + ink */
+  --paper:      #F3F0E9;   /* unbleached calico */
+  --paper-warm: #EDE8DE;
+  --paper-deep: #E4DED1;
+  --ink:        #16130F;
+  --ink-70:     rgba(22, 19, 15, .70);
+  --ink-50:     rgba(22, 19, 15, .50);
+  --ink-32:     rgba(22, 19, 15, .32);
+  --ink-14:     rgba(22, 19, 15, .14);
+  --ink-08:     rgba(22, 19, 15, .08);
+  --night:      #0E0C0A;
+
+  /* Cloth palette */
+  --gold:   #D69B21;
+  --maize:  #E9BE45;
+  --blood:  #9E2B22;
+  --forest: #14603C;
+  --indigo: #1D2C4E;
+  --clay:   #B4623A;
+
+  /* Type */
+  --sans: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Instrument Serif", "Times New Roman", serif;
+
+  --t-micro: 10px;
+  --t-label: 11px;
+  --t-body:  15px;
+  --t-lead:  clamp(17px, 1.35vw, 21px);
+
+  /* Rhythm */
+  --gutter: clamp(18px, 2.4vw, 34px);
+  --rule: 1px solid var(--ink-14);
+
+  /* Motion.
+     Kept near linear on purpose. A steep curve (expo, or pow(t,2.6)) holds an
+     element almost still for most of its duration and then whips it, which
+     reads as broken rather than eased. */
+  --expo:  cubic-bezier(.25, .7, .35, 1);
+  --swift: cubic-bezier(.45, .15, .35, 1);
+  --soft:  cubic-bezier(.33, .8, .45, 1);
+}
+
+/* --- 2. Reset ----------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  font-feature-settings: "ss01", "cv05";
+}
+
+h1, h2, h3, h4, p, figure, ul, ol { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection { background: var(--maize); color: var(--night); }
+
+/* --- 3. Type primitives -------------------------------------------------- */
+
+.label {
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.micro {
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.serif-it {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+.display {
+  font-weight: 400;
+  letter-spacing: -.038em;
+  line-height: .92;
+  font-size: clamp(46px, 9.2vw, 158px);
+}
+
+.headline {
+  font-weight: 400;
+  letter-spacing: -.03em;
+  line-height: 1.02;
+  font-size: clamp(30px, 4.4vw, 68px);
+}
+
+.lead {
+  font-size: var(--t-lead);
+  line-height: 1.35;
+  letter-spacing: -.017em;
+  max-width: 30ch;
+}
+
+.dim { color: var(--ink-50); }
+
+/* Link with a rule that wipes in from the left */
+.link-rule {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+}
+.link-rule::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform .55s var(--expo);
+}
+.link-rule:hover::after { transform: scaleX(1); transform-origin: left center; }
+
+/* --- 4. Split-text masks (letters + words) ------------------------------- */
+
+.split-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: .06em;   /* keeps descenders off the mask edge */
+  margin-bottom: -.06em;
+}
+
+.split-char,
+.split-word {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform: translate3d(0, 108%, 0) rotate(2.5deg);
+  opacity: 0;
+  transition:
+    transform .72s var(--expo),
+    opacity   .5s  var(--soft);
+  transition-delay: var(--d, 0ms);
+}
+
+.split-word { white-space: pre; }
+
+.is-revealed .split-char,
+.is-revealed .split-word {
+  transform: translate3d(0, 0, 0) rotate(0deg);
+  opacity: 1;
+}
+
+/* Simple block reveal for non-text elements */
+.rise {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition: opacity .6s var(--soft), transform .8s var(--expo);
+  transition-delay: var(--d, 0ms);
+}
+.is-revealed.rise, .is-revealed .rise { opacity: 1; transform: none; }
+
+/* Horizontal hairline that draws itself */
+.rule-draw {
+  height: 1px;
+  background: var(--ink-14);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .9s var(--expo);
+  transition-delay: var(--d, 0ms);
+}
+.is-revealed.rule-draw, .is-revealed .rule-draw { transform: scaleX(1); }
+
+/* Image mask wipe */
+.mask-img { overflow: hidden; position: relative; }
+.mask-img > * {
+  transform: scale(1.12);
+  transition: transform 1s var(--expo);
+  transition-delay: var(--d, 0ms);
+}
+.mask-img::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--paper);
+  transform-origin: bottom center;
+  transition: transform .85s var(--expo);
+  transition-delay: var(--d, 0ms);
+}
+.is-revealed.mask-img > *, .is-revealed .mask-img > * { transform: scale(1); }
+.is-revealed.mask-img::after, .is-revealed .mask-img::after { transform: scaleY(0); }
+
+/* --- 5. Motion levels ----------------------------------------------------
+   Resolved once in <head> into <html data-motion>. Nothing in this stylesheet
+   reads prefers-reduced-motion directly, so CSS and JS cannot disagree.
+
+     full — nothing requested; everything runs
+     calm — reduced motion requested (on iOS that includes Low Power Mode)
+     off  — no JavaScript; this is the markup default
+
+   calm is deliberately NOT a kill switch. Opacity is not motion, and an
+   ambient loop at a constant rate inside its own frame is not what the
+   preference is protecting against. What goes is travel and scaling: things
+   sliding in from off screen, parallax, slow zoom behind text.
+   ------------------------------------------------------------------------- */
+
+/* Travel and scale removed; the fade stays. */
+:root[data-motion="calm"] .split-char,
+:root[data-motion="calm"] .split-word,
+:root[data-motion="calm"] .rise {
+  transform: none;
+  transition: opacity .5s var(--soft);
+  transition-delay: var(--d, 0ms);
+}
+:root[data-motion="calm"] .rule-draw { transform: scaleX(1); transition: none; }
+:root[data-motion="calm"] .mask-img > * { transform: none; transition: none; }
+:root[data-motion="calm"] .mask-img::after {
+  transform: none;
+  opacity: 1;
+  transition: opacity .6s var(--soft);
+  transition-delay: var(--d, 0ms);
+}
+:root[data-motion="calm"] .is-revealed.mask-img::after,
+:root[data-motion="calm"] .is-revealed .mask-img::after { opacity: 0; }
+
+/* Hover scaling is still scaling. */
+:root[data-motion="calm"] .panel:hover .panel-figure .swatch,
+:root[data-motion="calm"] .cloth-cell:hover .swatch { transform: none; }
+
+/* No JavaScript: the page must be complete and readable as delivered. */
+:root[data-motion="off"] .split-char,
+:root[data-motion="off"] .split-word,
+:root[data-motion="off"] .rise { opacity: 1; transform: none; transition: none; }
+:root[data-motion="off"] .rule-draw { transform: scaleX(1); transition: none; }
+:root[data-motion="off"] .mask-img > * { transform: none; transition: none; }
+:root[data-motion="off"] .mask-img::after { display: none; }
+:root[data-motion="off"] .ink-word { color: var(--ink); }
+:root[data-motion="off"] .step { opacity: 1; }
+:root[data-motion="off"] .scroll-cue { display: none; }

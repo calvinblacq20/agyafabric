@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" data-motion="off">
+<head>
+<script>
+/* Resolve the motion level ONCE, before first paint, into <html data-motion>.
+   CSS and JS both read that attribute and never the media query, so they can
+   never disagree. On iOS prefers-reduced-motion is true for Low Power Mode as
+   well as the accessibility toggle, which is why "calm" means less motion
+   rather than none. ?motion=full|calm|off forces a level, so a device setting
+   can be told apart from a bug on a handset you cannot inspect. */
+(function () {
+  var level = 'full';
+  try {
+    var forced = (location.search.match(/[?&]motion=(full|calm|off)/) || [])[1];
+    if (forced) level = forced;
+    else if (window.matchMedia &&
+             window.matchMedia('(prefers-reduced-motion: reduce)').matches) level = 'calm';
+  } catch (e) { /* keep 'full' */ }
+  document.documentElement.setAttribute('data-motion', level);
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About — Uncle Agya, Textile House Accra</title>
+<meta name="description" content="A small textile house in Osu, Accra. Who we are, who we buy from, where our cloth has been shown and how to reach us.">
+<meta name="theme-color" content="#F3F0E9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/chrome.css">
+<link rel="stylesheet" href="assets/css/sections.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2312100E'/%3E%3Cpath d='M6 8h4v16H6zM13 8h2v16h-2zM18 8h3v16h-3zM24 8h2v16h-2z' fill='%23E9BE45'/%3E%3Cpath d='M4 14h24v2H4zM4 19h24v1.5H4z' fill='%239E2B22'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="frame">
+  <div class="frame-top">
+    <div class="top-left">
+      <div class="clock micro"><span class="t" data-clock>00:00</span><span class="city">ACCRA</span></div>
+      <div class="brand-block micro">
+        <a class="brand" href="index.html">UNCLE AGYA</a>
+        <span class="brand-sub">TEXTILE HOUSE</span>
+      </div>
+    </div>
+    <svg class="loom-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+    <div class="socials micro">
+      <a href="#" aria-label="Instagram"><span>IG<br>IG</span></a>
+      <a href="#" aria-label="WhatsApp"><span>WA<br>WA</span></a>
+      <a href="#" aria-label="TikTok"><span>TT<br>TT</span></a>
+      <a href="#" aria-label="Pinterest"><span>PT<br>PT</span></a>
+    </div>
+  </div>
+  <div></div>
+  <div class="frame-bottom">
+    <span class="copyright micro">&copy;2026 UNCLE AGYA&reg;</span>
+    <nav class="capsule" aria-label="Primary">
+      <span class="capsule-pill" aria-hidden="true"></span>
+      <a href="index.html">Index</a>
+      <a href="collections.html">Collections</a>
+      <a href="cloth.html">Cloth</a>
+      <a href="atelier.html">Atelier</a>
+      <a href="about.html" aria-current="page">About</a>
+    </nav>
+    <a class="mailto micro" href="mailto:hello@uncleagya.com">HELLO@UNCLEAGYA.COM</a>
+  </div>
+</div>
+
+<main>
+
+  <header class="page-head wrap">
+    <span class="micro dim">INFO</span>
+    <p class="lead" data-split="words" data-split-group="ph" data-reveal-onload>
+      Uncle Agya is a small textile house in Osu, Accra. We buy cloth from weavers we know by name, finish it ourselves, and sell it to people who intend to wear it rather than frame it.
+    </p>
+    <p class="dim">Got something in mind? <a class="link-rule" href="mailto:hello@uncleagya.com">hello@uncleagya.com</a></p>
+  </header>
+
+  <div class="wrap">
+    <div class="info-cols">
+      <div class="info-col" data-reveal>
+        <h4>Cloth</h4>
+        <ul>
+          <li><a href="collections.html#bonwire">Bonwire Kente</a></li>
+          <li><a href="collections.html#ntonso">Ntonso Adinkra</a></li>
+          <li><a href="collections.html#accra">Accra Wax</a></li>
+          <li><a href="collections.html#aburi">Aburi Indigo</a></li>
+          <li><a href="collections.html#daboya">Daboya Fugu</a></li>
+        </ul>
+      </div>
+
+      <div class="info-col" data-reveal data-reveal-delay="80">
+        <h4>Atelier</h4>
+        <ul>
+          <li><a href="atelier.html">Kaba &amp; slit</a></li>
+          <li><a href="atelier.html">Smocks &amp; batakari</a></li>
+          <li><a href="atelier.html">Wedding party cloth</a></li>
+          <li><a href="atelier.html">Wholesale by the bale</a></li>
+          <li><a href="atelier.html">Restoration</a></li>
+        </ul>
+      </div>
+
+      <div class="info-col" data-reveal data-reveal-delay="160">
+        <h4>We buy from</h4>
+        <ul>
+          <li>Kwabena Asare &mdash; Bonwire</li>
+          <li>Adwoa Mensimah &mdash; Bonwire</li>
+          <li>The Ntonso stamping co-op</li>
+          <li>Salifu Iddrisu &mdash; Daboya</li>
+          <li>Aburi indigo women&rsquo;s group</li>
+        </ul>
+      </div>
+
+      <div class="info-col" data-reveal data-reveal-delay="240">
+        <h4>Find us</h4>
+        <ul>
+          <li>14 Oxford Street, Osu</li>
+          <li>Accra, Ghana</li>
+          <li><a href="tel:+233000000000">+233 00 000 0000</a></li>
+          <li>Mon&ndash;Sat, 09:00&ndash;18:00 GMT</li>
+          <li><a href="mailto:hello@uncleagya.com">hello@uncleagya.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee">
+    <div class="marquee-row" data-marquee data-marquee-speed="0.4">
+      <span>SINCE 1974 <i class="dot"></i> <em>osu, accra</em> <i class="dot"></i> 42 MAKERS <i class="dot"></i> <em>no roller print</em> <i class="dot"></i></span>
+    </div>
+  </div>
+
+  <section class="manifesto wrap">
+    <div class="manifesto-grid">
+      <div>
+        <div style="display:flex;justify-content:space-between;color:var(--ink-50)">
+          <span class="micro">(01)</span>
+          <span class="micro">THE STORY</span>
+        </div>
+        <div class="rule-draw" data-reveal style="margin-top:12px"></div>
+      </div>
+
+      <h2 class="manifesto-body" data-ink data-ink-accent="stall,name,cloth">
+        Agya Mensah sold cloth from a stall at Makola from 1974, and knew every weaver by name. His daughter moved the house to Osu in 2003 and kept the rule he traded on: pay the weaver in full, on collection, and never call a printed cloth a woven one.
+      </h2>
+    </div>
+
+    <div class="manifesto-foot">
+      <p><span class="micro dim" style="display:block;margin-bottom:8px">SHOWN AT</span>
+        Chale Wote Street Art Festival &middot; Accra Fashion Week &middot; Kumasi Museum, loan collection &middot; Design Week Lagos</p>
+      <p><span class="micro dim" style="display:block;margin-bottom:8px">WRITTEN ABOUT IN</span>
+        Graphic Showbiz &middot; Accra Weekly &middot; Selektah &middot; The Continent</p>
+      <p><span class="micro dim" style="display:block;margin-bottom:8px">A NOTE ON PRICE</span>
+        Kente is expensive because it takes eleven weeks. If you find the same cloth for a fifth of the price, it came off a roller in a factory.</p>
+    </div>
+  </section>
+
+  <section class="cta wrap">
+    <h2 class="display" data-split="chars" data-split-group="cta" data-reveal>Come to<br>the shop.</h2>
+    <div class="cta-row">
+      <div class="cta-links">
+        <a class="link-rule" href="mailto:hello@uncleagya.com">hello@uncleagya.com</a>
+        <a class="link-rule" href="cloth.html">See what is in stock</a>
+        <a class="link-rule" href="atelier.html">Book a fitting</a>
+      </div>
+      <div class="cta-links micro dim" style="text-align:right;justify-items:end">
+        <span>14 OXFORD STREET, OSU</span>
+        <span>ACCRA, GHANA</span>
+      </div>
+    </div>
+
+    <div class="big-mark mask-img" data-reveal style="height:clamp(90px,14vw,190px);border-radius:3px">
+      <div style="position:absolute;inset:0" data-cloth="kente" data-seed="5901"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/cloth.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/ribbon.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

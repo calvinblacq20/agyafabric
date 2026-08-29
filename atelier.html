@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en" data-motion="off">
+<head>
+<script>
+/* Resolve the motion level ONCE, before first paint, into <html data-motion>.
+   CSS and JS both read that attribute and never the media query, so they can
+   never disagree. On iOS prefers-reduced-motion is true for Low Power Mode as
+   well as the accessibility toggle, which is why "calm" means less motion
+   rather than none. ?motion=full|calm|off forces a level, so a device setting
+   can be told apart from a bug on a handset you cannot inspect. */
+(function () {
+  var level = 'full';
+  try {
+    var forced = (location.search.match(/[?&]motion=(full|calm|off)/) || [])[1];
+    if (forced) level = forced;
+    else if (window.matchMedia &&
+             window.matchMedia('(prefers-reduced-motion: reduce)').matches) level = 'calm';
+  } catch (e) { /* keep 'full' */ }
+  document.documentElement.setAttribute('data-motion', level);
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Atelier — Uncle Agya, Textile House Accra</title>
+<meta name="description" content="Made to measure in Osu: kaba and slit, full smocks, wedding party cloth, wholesale by the bale and restoration of old cloth.">
+<meta name="theme-color" content="#F3F0E9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/chrome.css">
+<link rel="stylesheet" href="assets/css/sections.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2312100E'/%3E%3Cpath d='M6 8h4v16H6zM13 8h2v16h-2zM18 8h3v16h-3zM24 8h2v16h-2z' fill='%23E9BE45'/%3E%3Cpath d='M4 14h24v2H4zM4 19h24v1.5H4z' fill='%239E2B22'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="frame">
+  <div class="frame-top">
+    <div class="top-left">
+      <div class="clock micro"><span class="t" data-clock>00:00</span><span class="city">ACCRA</span></div>
+      <div class="brand-block micro">
+        <a class="brand" href="index.html">UNCLE AGYA</a>
+        <span class="brand-sub">TEXTILE HOUSE</span>
+      </div>
+    </div>
+    <svg class="loom-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+    <div class="socials micro">
+      <a href="#" aria-label="Instagram"><span>IG<br>IG</span></a>
+      <a href="#" aria-label="WhatsApp"><span>WA<br>WA</span></a>
+      <a href="#" aria-label="TikTok"><span>TT<br>TT</span></a>
+      <a href="#" aria-label="Pinterest"><span>PT<br>PT</span></a>
+    </div>
+  </div>
+  <div></div>
+  <div class="frame-bottom">
+    <span class="copyright micro">&copy;2026 UNCLE AGYA&reg;</span>
+    <nav class="capsule" aria-label="Primary">
+      <span class="capsule-pill" aria-hidden="true"></span>
+      <a href="index.html">Index</a>
+      <a href="collections.html">Collections</a>
+      <a href="cloth.html">Cloth</a>
+      <a href="atelier.html" aria-current="page">Atelier</a>
+      <a href="about.html">About</a>
+    </nav>
+    <a class="mailto micro" href="mailto:hello@uncleagya.com">HELLO@UNCLEAGYA.COM</a>
+  </div>
+</div>
+
+<main>
+
+  <header class="page-head wrap">
+    <div class="row" style="display:flex;justify-content:space-between;color:var(--ink-50)">
+      <span class="micro">THE ATELIER</span>
+      <span class="micro">14 OXFORD STREET, OSU</span>
+    </div>
+    <h1 class="display" data-split="chars" data-split-group="ph" data-reveal-onload>Cut for<br>one person.</h1>
+    <p class="lead dim" data-split="words" data-split-group="ph2" data-reveal-onload>
+      Five tailors work behind the showroom. Bring cloth or buy it here; either way you are measured standing, and the first fitting is inside two weeks.
+    </p>
+  </header>
+
+  <div class="marquee">
+    <div class="marquee-row" data-marquee data-marquee-speed="0.46">
+      <span>KABA &amp; SLIT <i class="dot"></i> <em>smocks</em> <i class="dot"></i> WEDDING PARTY <i class="dot"></i> <em>wholesale</em> <i class="dot"></i> RESTORATION <i class="dot"></i></span>
+    </div>
+  </div>
+
+  <!-- Services as a scroll-stepped list against a parallax stack -->
+  <section class="craft wrap">
+    <div>
+      <div class="craft-inner">
+        <span class="micro dim">(01) WHAT WE DO</span>
+        <h2 class="headline" data-split="words" data-split-group="s1" data-reveal>Five things,<br>done properly.</h2>
+        <div class="step-list" data-steps>
+          <div class="step is-active">
+            <span class="micro num">01</span>
+            <div><h4>Kaba &amp; slit</h4><p>Cut from your own six yards or ours. Lined, boned where it needs to be, finished by hand at the hem. From GH&cent; 900.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">02</span>
+            <div><h4>Smocks &amp; batakari</h4><p>Daboya strip cloth, hand-joined, with the deep pocket and the loose sleeve. From GH&cent; 1,400.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">03</span>
+            <div><h4>Wedding party</h4><p>One cloth, many bodies. We hold the dye lot so the whole family matches, and fit up to twenty people. Quoted per party.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">04</span>
+            <div><h4>Wholesale</h4><p>By the bale for shops and designers, from Bonwire, Ntonso and Daboya. Minimum twenty pieces, sixty days&rsquo; notice.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">05</span>
+            <div><h4>Restoration</h4><p>Old kente re-sewn where the strips have parted, and inherited cloth washed and re-blocked. Assessed free.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="craft-stack">
+      <figure class="craft-shot" data-reveal>
+        <div class="swatch" data-cloth="kente-bride" data-seed="505" data-parallax="0.11"></div>
+        <figcaption class="micro">EMAA DA &mdash; BRIDAL CLOTH</figcaption>
+      </figure>
+      <figure class="craft-shot" data-reveal>
+        <div class="swatch" data-cloth="fugu" data-seed="808" data-parallax="0.15"></div>
+        <figcaption class="micro">DAMBA &mdash; SMOCK STRIP</figcaption>
+      </figure>
+      <figure class="craft-shot" data-reveal>
+        <div class="swatch" data-cloth="calico" data-seed="333" data-parallax="0.07"></div>
+        <figcaption class="micro">NTOMA FUFUO &mdash; LINING CALICO</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- How a commission runs -->
+  <div class="wrap sec-head">
+    <div class="row">
+      <span class="micro">(02) HOW IT RUNS</span>
+      <span class="micro">FOUR TO ELEVEN WEEKS</span>
+    </div>
+    <h2 class="headline" data-split="chars" data-split-group="run" data-reveal>From measure to wrapped cloth.</h2>
+  </div>
+
+  <section class="horiz-track" data-horiz>
+    <div class="horiz-vp">
+      <div class="horiz-rail">
+
+        <article class="panel">
+          <div class="panel-figure">
+            <span class="micro panel-index">01</span>
+            <div class="swatch" data-cloth="calico" data-seed="4101"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Measure</span>
+            <span class="panel-note micro">DAY ONE<br>OSU, FREE</span>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-figure">
+            <span class="micro panel-index">02</span>
+            <div class="swatch" data-cloth="kente" data-seed="4202"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Choose cloth</span>
+            <span class="panel-note micro">SWATCHES SENT<br>BEFORE YOU COMMIT</span>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-figure">
+            <span class="micro panel-index">03</span>
+            <div class="swatch" data-cloth="adinkra" data-seed="4303"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Weave or stamp</span>
+            <span class="panel-note micro">2&ndash;11 WEEKS<br>DEPENDING ON CLOTH</span>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-figure">
+            <span class="micro panel-index">04</span>
+            <div class="swatch" data-cloth="batik" data-seed="4404"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">First fitting</span>
+            <span class="panel-note micro">CHALK ON CLOTH<br>NOTHING CUT YET</span>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-figure">
+            <span class="micro panel-index">05</span>
+            <div class="swatch" data-cloth="adire" data-seed="4505"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Second fitting</span>
+            <span class="panel-note micro">SEAMS OPEN<br>ADJUSTED ON YOU</span>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-figure">
+            <span class="micro panel-index">06</span>
+            <div class="swatch" data-cloth="kente-royal" data-seed="4606"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Wrapped</span>
+            <span class="panel-note micro">FOLDED IN TWELVE<br>TIED WITH A STRIP</span>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="horiz-hud">
+        <span class="micro" data-horiz-index>01</span>
+        <div class="bar"><i data-horiz-bar></i></div>
+        <span class="micro">06</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="ledger">
+    <div class="ledger-cell" data-reveal>
+      <span class="fig">GH&cent;<span data-count="900">0</span></span>
+      <p>Starting price for a kaba and slit, cloth not included.</p>
+    </div>
+    <div class="ledger-cell" data-reveal data-reveal-delay="90">
+      <span class="fig"><span data-count="2">0</span></span>
+      <p>Fittings included. A third is free if we got something wrong.</p>
+    </div>
+    <div class="ledger-cell" data-reveal data-reveal-delay="180">
+      <span class="fig"><span data-count="20">0</span></span>
+      <p>People we can dress from one dye lot for a wedding.</p>
+    </div>
+    <div class="ledger-cell" data-reveal data-reveal-delay="270">
+      <span class="fig"><span data-count="5">0</span></span>
+      <p>Tailors working behind the Osu showroom.</p>
+    </div>
+  </section>
+
+  <section class="cta wrap">
+    <h2 class="display" data-split="chars" data-split-group="cta" data-reveal>Book the<br>first fitting.</h2>
+    <div class="cta-row">
+      <div class="cta-links">
+        <a class="link-rule" href="mailto:hello@uncleagya.com?subject=Atelier%20fitting">hello@uncleagya.com</a>
+        <a class="link-rule" href="tel:+233000000000">+233 00 000 0000</a>
+        <a class="link-rule" href="cloth.html">Choose your cloth first</a>
+      </div>
+      <div class="cta-links micro dim" style="text-align:right;justify-items:end">
+        <span>WALK-INS MON&ndash;SAT, 09:00&ndash;18:00</span>
+        <span>WEDDING PARTIES BY APPOINTMENT</span>
+      </div>
+    </div>
+
+    <div class="big-mark mask-img" data-reveal style="height:clamp(90px,14vw,190px);border-radius:3px">
+      <div style="position:absolute;inset:0" data-cloth="adinkra" data-seed="4901"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/cloth.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/ribbon.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

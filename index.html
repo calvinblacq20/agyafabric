@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en" data-motion="off">
+<head>
+<script>
+/* Resolve the motion level ONCE, before first paint, into <html data-motion>.
+   CSS and JS both read that attribute and never the media query, so they can
+   never disagree. On iOS prefers-reduced-motion is true for Low Power Mode as
+   well as the accessibility toggle, which is why "calm" means less motion
+   rather than none. ?motion=full|calm|off forces a level, so a device setting
+   can be told apart from a bug on a handset you cannot inspect. */
+(function () {
+  var level = 'full';
+  try {
+    var forced = (location.search.match(/[?&]motion=(full|calm|off)/) || [])[1];
+    if (forced) level = forced;
+    else if (window.matchMedia &&
+             window.matchMedia('(prefers-reduced-motion: reduce)').matches) level = 'calm';
+  } catch (e) { /* keep 'full' */ }
+  document.documentElement.setAttribute('data-motion', level);
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Uncle Agya — Textile House, Accra · Kente, Adinkra, Batik &amp; Fugu</title>
+<meta name="description" content="Uncle Agya is a cloth house in Accra. Kente woven at Bonwire, adinkra stamped at Ntonso, wax and indigo finished by hand. Sold by the strip, the yard and the full cloth.">
+<meta name="theme-color" content="#F3F0E9">
+<meta property="og:title" content="Uncle Agya — Textile House, Accra">
+<meta property="og:description" content="Kente woven at Bonwire, adinkra stamped at Ntonso, wax and indigo finished by hand.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/chrome.css">
+<link rel="stylesheet" href="assets/css/sections.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2312100E'/%3E%3Cpath d='M6 8h4v16H6zM13 8h2v16h-2zM18 8h3v16h-3zM24 8h2v16h-2z' fill='%23E9BE45'/%3E%3Cpath d='M4 14h24v2H4zM4 19h24v1.5H4z' fill='%239E2B22'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ============================== FRAME ============================== -->
+<div class="frame">
+  <div class="frame-top">
+    <div class="top-left">
+      <div class="clock micro"><span class="t" data-clock>00:00</span><span class="city">ACCRA</span></div>
+      <div class="brand-block micro">
+        <a class="brand" href="index.html">UNCLE AGYA</a>
+        <span class="brand-sub">TEXTILE HOUSE</span>
+      </div>
+    </div>
+
+    <svg class="loom-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+
+    <div class="socials micro">
+      <a href="#" aria-label="Instagram"><span>IG<br>IG</span></a>
+      <a href="#" aria-label="WhatsApp"><span>WA<br>WA</span></a>
+      <a href="#" aria-label="TikTok"><span>TT<br>TT</span></a>
+      <a href="#" aria-label="Pinterest"><span>PT<br>PT</span></a>
+    </div>
+  </div>
+
+  <div></div>
+
+  <div class="frame-bottom">
+    <span class="copyright micro">&copy;2026 UNCLE AGYA&reg;</span>
+
+    <nav class="capsule" aria-label="Primary">
+      <span class="capsule-pill" aria-hidden="true"></span>
+      <a href="index.html" aria-current="page">Index</a>
+      <a href="collections.html">Collections</a>
+      <a href="cloth.html">Cloth</a>
+      <a href="atelier.html">Atelier</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <a class="mailto micro" href="mailto:hello@uncleagya.com">HELLO@UNCLEAGYA.COM</a>
+  </div>
+</div>
+
+<main>
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero-track" data-hero-track>
+    <div class="hero">
+
+      <div class="hero-intro">
+        <p class="lead" data-split="words" data-split-group="hero" data-reveal-onload>
+          Uncle Agya is a cloth house in Accra, weaving kente, stamping adinkra and printing wax for people who wear their story.
+        </p>
+      </div>
+
+      <div class="hero-meta micro" data-reveal-onload>
+        <span>EST. 1974 &mdash; OSU, ACCRA</span>
+        <span>BONWIRE &middot; NTONSO &middot; DABOYA</span>
+        <span>SOLD BY STRIP, YARD &amp; CLOTH</span>
+      </div>
+
+      <div class="stage" data-stage></div>
+
+      <div class="hero-progress">
+        <span class="micro" data-hero-count>01</span>
+        <span class="micro" data-ribbon-name>Adweneasa</span>
+        <div class="bar"><i data-hero-bar></i></div>
+        <span class="micro">14 CLOTHS</span>
+      </div>
+
+      <div class="scroll-cue">
+        <span class="micro">SCROLL</span>
+        <span class="line"></span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================== MANIFESTO ========================== -->
+  <section class="manifesto wrap">
+    <div class="manifesto-grid">
+      <div>
+        <div class="row" style="display:flex;justify-content:space-between;color:var(--ink-50)">
+          <span class="micro">(01)</span>
+          <span class="micro">THE HOUSE</span>
+        </div>
+        <div class="rule-draw" data-reveal style="margin-top:12px"></div>
+      </div>
+
+      <h2 class="manifesto-body" data-ink data-ink-accent="hand,loom,Ghana">
+        Every cloth here is made by a hand you could shake. We buy the yarn, dress the loom, cut the stamp and mix the ink. Nothing leaves this house until it has been washed, pressed and folded the way our grandmothers folded cloth in Ghana.
+      </h2>
+    </div>
+
+    <div class="manifesto-foot">
+      <p><span class="micro dim" style="display:block;margin-bottom:8px">WHAT WE SELL</span>
+        Full cloths of twelve yards, half pieces of six, single kente strips, and made-to-measure work from the atelier in Osu.</p>
+      <p><span class="micro dim" style="display:block;margin-bottom:8px">WHERE IT COMES FROM</span>
+        Bonwire for kente, Ntonso for adinkra, Daboya for fugu, Aburi for indigo. We pay the weavers directly, in full, on collection.</p>
+      <p><span class="micro dim" style="display:block;margin-bottom:8px">HOW LONG IT TAKES</span>
+        A plain strip takes two days on the loom. A royal cloth of twenty-four strips takes a weaver about eleven weeks.</p>
+    </div>
+  </section>
+
+  <!-- =========================== MARQUEE =========================== -->
+  <div class="marquee">
+    <div class="marquee-row" data-marquee data-marquee-speed="0.5">
+      <span>
+        KENTE <i class="dot"></i> ADINKRA <i class="dot"></i> <em>batik</em> <i class="dot"></i> FUGU <i class="dot"></i> ADIRE <i class="dot"></i> <em>calico</em> <i class="dot"></i>
+      </span>
+    </div>
+  </div>
+
+  <!-- ========================= COLLECTIONS ========================= -->
+  <div class="wrap sec-head">
+    <div class="row">
+      <span class="micro">(02) COLLECTIONS</span>
+      <span class="micro">SIX HOUSES OF CLOTH</span>
+    </div>
+    <h3 class="headline" data-split="chars" data-split-group="coll" data-reveal>Woven where it belongs.</h3>
+  </div>
+
+  <section class="horiz-track" data-horiz>
+    <div class="horiz-vp">
+      <div class="horiz-rail">
+
+        <a class="panel" href="collections.html#bonwire">
+          <div class="panel-figure">
+            <span class="micro panel-index">01</span>
+            <div class="swatch" data-cloth="kente" data-seed="1201"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Bonwire Kente</span>
+            <span class="panel-note micro">SILK &amp; COTTON<br>24 STRIPS</span>
+          </div>
+        </a>
+
+        <a class="panel" href="collections.html#ntonso">
+          <div class="panel-figure">
+            <span class="micro panel-index">02</span>
+            <div class="swatch" data-cloth="adinkra" data-seed="1302"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Ntonso Adinkra</span>
+            <span class="panel-note micro">BADIE INK<br>HAND STAMPED</span>
+          </div>
+        </a>
+
+        <a class="panel" href="collections.html#accra">
+          <div class="panel-figure">
+            <span class="micro panel-index">03</span>
+            <div class="swatch" data-cloth="batik" data-seed="1403"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Accra Wax</span>
+            <span class="panel-note micro">WAX RESIST<br>SIX YARDS</span>
+          </div>
+        </a>
+
+        <a class="panel" href="collections.html#aburi">
+          <div class="panel-figure">
+            <span class="micro panel-index">04</span>
+            <div class="swatch" data-cloth="adire" data-seed="1504"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Aburi Indigo</span>
+            <span class="panel-note micro">TIED &amp; STITCHED<br>RESIST DYE</span>
+          </div>
+        </a>
+
+        <a class="panel" href="collections.html#daboya">
+          <div class="panel-figure">
+            <span class="micro panel-index">05</span>
+            <div class="swatch" data-cloth="fugu" data-seed="1605"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">Daboya Fugu</span>
+            <span class="panel-note micro">NARROW STRIP<br>SMOCK CLOTH</span>
+          </div>
+        </a>
+
+        <a class="panel" href="atelier.html">
+          <div class="panel-figure">
+            <span class="micro panel-index">06</span>
+            <div class="swatch" data-cloth="adinkra-indigo" data-seed="1706"></div>
+          </div>
+          <div class="panel-meta">
+            <span class="panel-title">The Atelier</span>
+            <span class="panel-note micro">CUT, MEASURED<br>FINISHED</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="horiz-hud">
+        <span class="micro" data-horiz-index>01</span>
+        <div class="bar"><i data-horiz-bar></i></div>
+        <span class="micro">06</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CRAFT ============================ -->
+  <section class="craft wrap">
+    <div>
+      <div class="craft-inner">
+        <span class="micro dim">(03) THE MAKING</span>
+        <h3 class="headline" data-split="words" data-split-group="craft" data-reveal>From yarn<br>to folded cloth.</h3>
+        <div class="step-list" data-steps>
+          <div class="step is-active">
+            <span class="micro num">01</span>
+            <div><h4>Yarn</h4><p>Cotton from Tamale, rayon and silk from the market at Kejetia. Dyed in the yard behind the house.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">02</span>
+            <div><h4>Warping</h4><p>Threads walked out along the warping frame — up to four hundred yards for a single royal cloth.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">03</span>
+            <div><h4>Weaving</h4><p>Four inches at a time on the double-heddle loom. Warp-faced blocks and weft-faced blocks alternate.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">04</span>
+            <div><h4>Stamping</h4><p>Calabash stamps cut by hand, pressed into badie bark ink. Every symbol carries a proverb.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">05</span>
+            <div><h4>Sewing</h4><p>Strips joined edge to edge so the blocks break joint and the pattern keeps its beat across the cloth.</p></div>
+          </div>
+          <div class="step">
+            <span class="micro num">06</span>
+            <div><h4>Finishing</h4><p>Washed cold, pressed, folded in twelve, wrapped in calico and tied with a strip of the same cloth.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="craft-stack">
+      <figure class="craft-shot" data-reveal>
+        <div class="swatch" data-cloth="kente-royal" data-seed="2101" data-parallax="0.09"></div>
+        <figcaption class="micro">OYOKOMAN &mdash; BONWIRE LOOM</figcaption>
+      </figure>
+      <figure class="craft-shot" data-reveal>
+        <div class="swatch" data-cloth="adinkra" data-seed="2202" data-parallax="0.13"></div>
+        <figcaption class="micro">NWOMU &mdash; NTONSO STAMPING TABLE</figcaption>
+      </figure>
+      <figure class="craft-shot" data-reveal>
+        <div class="swatch" data-cloth="adire" data-seed="2303" data-parallax="0.07"></div>
+        <figcaption class="micro">BOSOMMURU &mdash; ABURI INDIGO VAT</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- =========================== LEDGER =========================== -->
+  <section class="ledger">
+    <div class="ledger-cell" data-reveal>
+      <span class="fig"><span data-count="1974">0</span></span>
+      <p>The year Agya Mensah opened the first stall at Makola.</p>
+    </div>
+    <div class="ledger-cell" data-reveal data-reveal-delay="90">
+      <span class="fig"><span data-count="42">0</span></span>
+      <p>Weavers, dyers and stampers we buy from directly.</p>
+    </div>
+    <div class="ledger-cell" data-reveal data-reveal-delay="180">
+      <span class="fig"><span data-count="11">0</span><sup>wks</sup></span>
+      <p>Time on the loom for a full twenty-four strip royal cloth.</p>
+    </div>
+    <div class="ledger-cell" data-reveal data-reveal-delay="270">
+      <span class="fig"><span data-count="100">0</span><sup>%</sup></span>
+      <p>Hand finished. No mill, no roller print, no shortcuts.</p>
+    </div>
+  </section>
+
+  <!-- ========================= CLOTH INDEX ========================= -->
+  <div class="wrap sec-head">
+    <div class="row">
+      <span class="micro">(04) IN STOCK</span>
+      <span class="micro">ACCRA SHOWROOM &amp; ONLINE</span>
+    </div>
+    <h3 class="headline" data-split="chars" data-split-group="stock" data-reveal>On the shelf today.</h3>
+  </div>
+
+  <div class="wrap">
+    <div class="index-list">
+
+      <a class="index-row" href="cloth.html" data-preview="kente" data-preview-seed="101">
+        <span class="micro dim">01</span>
+        <span class="index-name">Adweneasa <em>royal</em></span>
+        <span class="index-tags micro dim"><span>KENTE</span><span>BONWIRE</span></span>
+        <span class="micro">GH&cent; 4,800</span>
+      </a>
+
+      <a class="index-row" href="cloth.html" data-preview="adinkra" data-preview-seed="202">
+        <span class="micro dim">02</span>
+        <span class="index-name">Nwomu <em>mourning</em></span>
+        <span class="index-tags micro dim"><span>ADINKRA</span><span>NTONSO</span></span>
+        <span class="micro">GH&cent; 1,150</span>
+      </a>
+
+      <a class="index-row" href="cloth.html" data-preview="batik" data-preview-seed="606">
+        <span class="micro dim">03</span>
+        <span class="index-name">Sunsum <em>wax</em></span>
+        <span class="index-tags micro dim"><span>BATIK</span><span>ACCRA</span></span>
+        <span class="micro">GH&cent; 680</span>
+      </a>
+
+      <a class="index-row" href="cloth.html" data-preview="fugu" data-preview-seed="808">
+        <span class="micro dim">04</span>
+        <span class="index-name">Damba <em>smock</em></span>
+        <span class="index-tags micro dim"><span>FUGU</span><span>DABOYA</span></span>
+        <span class="micro">GH&cent; 1,950</span>
+      </a>
+
+      <a class="index-row" href="cloth.html" data-preview="adire" data-preview-seed="404">
+        <span class="micro dim">05</span>
+        <span class="index-name">Bosommuru <em>indigo</em></span>
+        <span class="index-tags micro dim"><span>ADIRE</span><span>ABURI</span></span>
+        <span class="micro">GH&cent; 920</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ============================= CTA ============================= -->
+  <section class="cta wrap">
+    <h2 class="display" data-split="chars" data-split-group="cta" data-reveal>
+      Come and feel<br>the cloth.
+    </h2>
+
+    <div class="cta-row">
+      <div class="cta-links">
+        <a class="link-rule" href="mailto:hello@uncleagya.com">hello@uncleagya.com</a>
+        <a class="link-rule" href="tel:+233000000000">+233 00 000 0000</a>
+        <a class="link-rule" href="atelier.html">Book a fitting at the atelier</a>
+      </div>
+
+      <div class="cta-links micro dim" style="text-align:right;justify-items:end">
+        <span>14 OXFORD STREET, OSU</span>
+        <span>ACCRA, GHANA</span>
+        <span>MON&ndash;SAT &middot; 09:00&ndash;18:00 GMT</span>
+      </div>
+    </div>
+
+    <div class="big-mark mask-img" data-reveal style="height:clamp(90px,14vw,190px);border-radius:3px">
+      <div style="position:absolute;inset:0" data-cloth="kente-bride" data-seed="3101"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/cloth.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/ribbon.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,656 @@
+/* ==========================================================================
+   SECTIONS
+   ========================================================================== */
+
+.wrap { padding: 0 var(--gutter); }
+
+/* --- HERO: pinned 3D cloth ribbon ---------------------------------------- */
+
+.hero-track { position: relative; height: 460vh; }
+
+.hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-intro {
+  position: absolute;
+  top: clamp(84px, 11vh, 130px);
+  left: var(--gutter);
+  z-index: 5;
+  max-width: min(30ch, 44vw);
+  pointer-events: none;
+}
+.hero-intro .lead { max-width: none; }
+
+.hero-meta {
+  position: absolute;
+  right: var(--gutter);
+  top: clamp(84px, 11vh, 130px);
+  z-index: 5;
+  text-align: right;
+  color: var(--ink-50);
+  display: grid;
+  gap: 5px;
+  pointer-events: none;
+}
+
+/* The 3D stage */
+.stage {
+  position: absolute;
+  inset: 0;
+  perspective: 1500px;
+  perspective-origin: 50% 48%;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.stage.is-dragging { cursor: grabbing; }
+
+.ribbon {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  transform-style: preserve-3d;
+}
+
+.cloth {
+  position: absolute;
+  width: clamp(190px, 20vw, 300px);
+  height: clamp(268px, 28vw, 420px);
+  margin-left: calc(clamp(190px, 20vw, 300px) / -2);
+  margin-top: calc(clamp(268px, 28vw, 420px) / -2);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.cloth-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 3px;
+  background-color: var(--paper-deep);
+  background-size: cover;
+  background-position: center;
+  box-shadow:
+    0 30px 60px -30px rgba(22, 19, 15, .55),
+    0 2px 10px -4px rgba(22, 19, 15, .3);
+}
+/* woven sheen that shifts with the card angle */
+.cloth-face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, .34) 0%,
+    rgba(255, 255, 255, 0)   38%,
+    rgba(22, 19, 15, .16)    72%,
+    rgba(22, 19, 15, .34)   100%
+  );
+  opacity: var(--sheen, .5);
+  mix-blend-mode: soft-light;
+}
+
+.cloth-mirror {
+  position: absolute;
+  top: 100%; left: 0;
+  width: 100%; height: 62%;
+  transform: scaleY(-1);
+  transform-origin: top center;
+  background-size: cover;
+  background-position: center top;
+  opacity: .16;
+  -webkit-mask-image: linear-gradient(to top, transparent 4%, rgba(0,0,0,.85) 96%);
+          mask-image: linear-gradient(to top, transparent 4%, rgba(0,0,0,.85) 96%);
+  pointer-events: none;
+}
+
+.cloth-caption {
+  position: absolute;
+  left: 0;
+  bottom: -30px;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  color: var(--ink-70);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .5s var(--soft), transform .6s var(--expo);
+  white-space: nowrap;
+}
+.cloth.is-front .cloth-caption { opacity: 1; transform: none; }
+
+/* Progress read-out along the bottom of the hero */
+.hero-progress {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(84px, 11vh, 118px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 5;
+  color: var(--ink-50);
+  pointer-events: none;
+}
+.hero-progress .bar {
+  flex: 1;
+  height: 1px;
+  background: var(--ink-14);
+  position: relative;
+  overflow: hidden;
+}
+.hero-progress .bar i {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* --- MANIFESTO: scroll-scrubbed word ink-in ------------------------------ */
+
+.manifesto {
+  padding-block: clamp(120px, 20vh, 230px) clamp(110px, 18vh, 200px);
+  border-top: var(--rule);
+}
+.manifesto-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(34px, 5vw, 70px);
+}
+.manifesto-body {
+  font-size: clamp(26px, 3.5vw, 56px);
+  line-height: 1.14;
+  letter-spacing: -.032em;
+  font-weight: 400;
+  max-width: 20ch;
+}
+/* words start faint and ink in as the section passes the reading line */
+.ink-word {
+  display: inline-block;
+  color: var(--ink-14);
+  transition: color .45s linear;
+  white-space: pre;
+}
+.ink-word.is-inked { color: var(--ink); }
+.ink-word.is-accent.is-inked { color: var(--blood); }
+.ink-word em { font-family: var(--serif); font-style: italic; }
+
+.manifesto-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 5vw, 80px);
+  margin-top: clamp(48px, 8vw, 110px);
+  padding-top: clamp(30px, 4vw, 54px);
+  border-top: var(--rule);
+  color: var(--ink-70);
+}
+.manifesto-foot p { max-width: 34ch; font-size: 14px; }
+
+/* --- MARQUEE ------------------------------------------------------------- */
+
+.marquee {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(16px, 2vw, 26px);
+  border-top: var(--rule);
+  border-bottom: var(--rule);
+  background: var(--paper);
+}
+.marquee-row {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.marquee-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 40px);
+  padding-right: clamp(18px, 2.4vw, 40px);
+  font-size: clamp(26px, 4.6vw, 76px);
+  letter-spacing: -.035em;
+  line-height: 1.06;
+  white-space: nowrap;
+}
+.marquee-row .dot {
+  width: clamp(7px, .8vw, 12px);
+  height: clamp(7px, .8vw, 12px);
+  border-radius: 50%;
+  background: var(--gold);
+  flex: none;
+}
+.marquee-row em { font-family: var(--serif); font-style: italic; letter-spacing: -.02em; }
+
+/* --- SECTION HEADS ------------------------------------------------------- */
+
+.sec-head {
+  display: grid;
+  gap: 12px;
+  padding-block: clamp(70px, 10vh, 120px) clamp(26px, 3.5vw, 46px);
+}
+.sec-head .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  color: var(--ink-50);
+}
+
+/* --- COLLECTIONS: pinned horizontal scroll ------------------------------- */
+
+.horiz-track { position: relative; }
+.horiz-vp {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.horiz-rail {
+  display: flex;
+  gap: clamp(16px, 2vw, 30px);
+  padding: 0 var(--gutter);
+  will-change: transform;
+}
+
+.panel {
+  position: relative;
+  flex: none;
+  width: clamp(260px, 30vw, 440px);
+  display: grid;
+  gap: 4px;
+}
+.panel-figure {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--paper-deep);
+}
+.panel-figure .swatch {
+  position: absolute;
+  inset: -6%;
+  background-size: cover;
+  background-position: center;
+  transition: transform .9s var(--expo);
+  will-change: transform;
+}
+.panel:hover .panel-figure .swatch { transform: scale(1.07); }
+
+.panel-index {
+  position: absolute;
+  top: 12px; left: 12px;
+  z-index: 2;
+  color: rgba(255, 255, 255, .92);
+  mix-blend-mode: difference;
+}
+.panel-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: var(--rule);
+}
+.panel-title { font-size: clamp(17px, 1.5vw, 23px); letter-spacing: -.024em; }
+.panel-note  { color: var(--ink-50); text-align: right; }
+
+.horiz-hud {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(86px, 12vh, 120px);
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  color: var(--ink-50);
+  pointer-events: none;
+}
+.horiz-hud .bar { flex: 1; height: 1px; background: var(--ink-14); position: relative; }
+.horiz-hud .bar i {
+  position: absolute; inset: 0;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* --- CRAFT: sticky column + parallax stack ------------------------------- */
+
+.craft {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(40px, 6vw, 90px);
+  padding-block: clamp(90px, 14vh, 170px);
+  border-top: var(--rule);
+}
+.craft-inner { position: sticky; top: clamp(110px, 16vh, 170px); display: grid; gap: 22px; }
+
+.step-list { display: grid; gap: 0; }
+.step {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 14px;
+  padding: 16px 0;
+  border-top: var(--rule);
+  align-items: start;
+  transition: opacity .6s var(--soft);
+  opacity: .32;
+}
+.step.is-active { opacity: 1; }
+.step h4 { font-size: 16px; font-weight: 400; letter-spacing: -.02em; margin-bottom: 4px; }
+.step p { font-size: 13.5px; color: var(--ink-50); max-width: 40ch; }
+.step .num { color: var(--ink-32); }
+
+.craft-stack { display: grid; gap: clamp(16px, 2.4vw, 34px); }
+.craft-shot {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  aspect-ratio: 4 / 5;
+  background: var(--paper-deep);
+}
+.craft-shot .swatch {
+  position: absolute;
+  inset: -14% 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+.craft-shot figcaption {
+  position: absolute;
+  left: 14px; bottom: 12px;
+  color: rgba(255,255,255,.92);
+  mix-blend-mode: difference;
+  z-index: 2;
+}
+
+/* --- LEDGER (numbers) ---------------------------------------------------- */
+
+.ledger {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--ink-14);
+  border-top: var(--rule);
+  border-bottom: var(--rule);
+}
+.ledger-cell {
+  background: var(--paper);
+  padding: clamp(26px, 4vw, 54px) clamp(16px, 2vw, 28px);
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.ledger-cell .fig {
+  font-size: clamp(38px, 5.4vw, 86px);
+  letter-spacing: -.045em;
+  line-height: .9;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: .06em;
+}
+.ledger-cell .fig sup { font-size: .3em; transform: translateY(-.9em); letter-spacing: 0; }
+.ledger-cell p { color: var(--ink-50); font-size: 13px; max-width: 26ch; }
+
+/* --- INDEX LIST (hover-preview rows) ------------------------------------- */
+
+.index-list { border-top: var(--rule); }
+.index-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 46px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: clamp(16px, 2.2vw, 30px) 0;
+  border-bottom: var(--rule);
+  overflow: hidden;
+}
+.index-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition: transform .68s var(--expo);
+  z-index: 0;
+}
+.index-row:hover::before { transform: scaleY(1); transform-origin: top center; }
+.index-row > * { position: relative; z-index: 1; transition: color .5s var(--soft); }
+.index-row:hover > * { color: var(--paper); }
+.index-row:hover .dim { color: rgba(243, 240, 233, .6); }
+
+.index-name {
+  font-size: clamp(24px, 3.6vw, 54px);
+  letter-spacing: -.035em;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.index-name em { font-family: var(--serif); font-style: italic; }
+.index-tags { display: flex; gap: 10px; color: var(--ink-50); }
+
+.hover-preview {
+  position: fixed;
+  top: 0; left: 0;
+  width: 230px;
+  height: 300px;
+  z-index: 80;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 3px;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.86) rotate(-5deg);
+  transition: opacity .4s var(--soft), transform .7s var(--expo);
+  box-shadow: 0 30px 60px -28px rgba(22, 19, 15, .5);
+  will-change: transform;
+}
+.hover-preview.is-on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-2deg); }
+.hover-preview .swatch { position: absolute; inset: 0; background-size: cover; background-position: center; }
+
+/* --- GRID (cloth library) ------------------------------------------------ */
+
+.cloth-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(10px, 1.4vw, 22px);
+  padding-bottom: clamp(70px, 10vh, 130px);
+}
+.cloth-cell { display: grid; gap: 10px; align-content: start; }
+.cloth-cell .fig {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--paper-deep);
+  aspect-ratio: var(--ar, 1);
+}
+.cloth-cell .swatch {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform .9s var(--expo);
+}
+.cloth-cell:hover .swatch { transform: scale(1.05); }
+.cloth-cell .meta { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-50); }
+
+/* --- CTA / FOOT ---------------------------------------------------------- */
+
+.cta {
+  position: relative;
+  padding-block: clamp(100px, 16vh, 210px) clamp(120px, 16vh, 180px);
+  border-top: var(--rule);
+  overflow: hidden;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 28px;
+  align-items: flex-end;
+  padding-top: clamp(34px, 5vw, 70px);
+}
+.cta-links { display: grid; gap: 8px; }
+.cta-links a { font-size: clamp(16px, 1.6vw, 22px); letter-spacing: -.02em; }
+
+.big-mark {
+  display: block;
+  width: 100%;
+  margin-top: clamp(40px, 6vw, 80px);
+  opacity: .92;
+}
+
+/* --- INFO page ----------------------------------------------------------- */
+
+.info-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(26px, 3vw, 44px);
+  padding: clamp(30px, 5vh, 60px) 0 clamp(90px, 12vh, 150px);
+}
+.info-col { display: grid; gap: 12px; align-content: start; }
+.info-col h4 {
+  font-weight: 400;
+  color: var(--ink-50);
+  padding-bottom: 12px;
+  border-bottom: var(--rule);
+  font-size: 13px;
+}
+.info-col li { padding: 3px 0; }
+.info-col li a { color: var(--ink-70); }
+.info-col li a:hover { color: var(--ink); }
+
+.page-head {
+  padding-block: clamp(96px, 15vh, 170px) clamp(26px, 4vw, 50px);
+  display: grid;
+  gap: clamp(18px, 2.6vw, 34px);
+}
+
+/* --- Breakpoints --------------------------------------------------------- */
+
+@media (min-width: 720px) {
+  .cloth-grid { grid-template-columns: repeat(3, 1fr); }
+  .ledger { grid-template-columns: repeat(4, 1fr); }
+  .info-cols { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 1000px) {
+  .manifesto-grid { grid-template-columns: 1fr 1.35fr; align-items: start; }
+  .manifesto-body { max-width: 24ch; }
+  .craft { grid-template-columns: .85fr 1.15fr; }
+  .cloth-grid { grid-template-columns: repeat(4, 1fr); }
+  .index-row { grid-template-columns: 60px 1fr 1fr auto; }
+}
+
+@media (max-width: 860px) {
+  .hero-track { height: 300vh; }
+  .hero-meta { display: none; }
+  .hero-intro { max-width: 84vw; top: 92px; }
+  .scroll-cue { bottom: 148px; }
+  .hero-progress { bottom: 118px; }
+  .horiz-hud { bottom: 118px; }
+  .index-name { font-size: clamp(22px, 7vw, 34px); }
+  .index-row { grid-template-columns: 28px 1fr; }
+  .index-tags { display: none; }
+}
+
+/* --- Filter chips -------------------------------------------------------- */
+
+.filter-chip {
+  padding: 7px 15px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--ink-14);
+  font-size: 12.5px;
+  letter-spacing: -.005em;
+  color: var(--ink-70);
+  background: transparent;
+  transition: color .4s var(--soft), background .5s var(--expo), border-color .4s var(--soft);
+}
+.filter-chip:hover { color: var(--ink); border-color: var(--ink-32); }
+.filter-chip.is-on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.cloth-cell {
+  transition: opacity .5s var(--soft), transform .6s var(--expo);
+}
+.cloth-cell.is-filtered-out {
+  display: none;
+}
+
+/* Narrow screens: price drops under the name rather than under the number */
+@media (max-width: 860px) {
+  .index-row > :last-child { grid-column: 2; }
+  .index-row { row-gap: 6px; }
+}
+
+@media (max-width: 860px) {
+  .filter-chip { padding: 11px 16px 12px; font-size: 13px; }
+}
+
+/* On a phone the whole step list is in view at once, so dimming the inactive
+   ones to 32% just makes five of six unreadable. Keep the emphasis, drop the
+   penalty. */
+@media (max-width: 860px) {
+  .step { opacity: .62; }
+  .step p { color: var(--ink-70); }
+}
+
+/* ==========================================================================
+   MOTION LEVELS — layout consequences
+   Dropping a scroll-coupled effect is not enough on its own: a pinned section
+   whose transform no longer runs becomes a tall block of dead scroll holding
+   content you can never reach. So when the coupling goes, the pin goes too.
+   ========================================================================== */
+
+/* The hero no longer consumes scroll, so it must not reserve four screens of
+   it. The rack keeps turning on its own constant-rate drift. */
+:root[data-motion="calm"] .hero-track,
+:root[data-motion="off"]  .hero-track { height: 100vh; height: 100svh; }
+
+/* These read out pin progress, which no longer exists. */
+:root[data-motion="calm"] .hero-progress .bar,
+:root[data-motion="calm"] [data-hero-count],
+:root[data-motion="off"]  .hero-progress,
+:root[data-motion="calm"] .horiz-hud,
+:root[data-motion="off"]  .horiz-hud { display: none; }
+
+/* The rail becomes an ordinary horizontal scroller: every panel stays
+   reachable, by a gesture the reader controls, with no coupled travel. */
+:root[data-motion="calm"] .horiz-track,
+:root[data-motion="off"]  .horiz-track { height: auto !important; }
+
+:root[data-motion="calm"] .horiz-vp,
+:root[data-motion="off"]  .horiz-vp {
+  position: static;
+  height: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: clamp(20px, 4vh, 48px);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+:root[data-motion="calm"] .horiz-rail,
+:root[data-motion="off"]  .horiz-rail { transform: none !important; will-change: auto; }
+
+:root[data-motion="calm"] .panel,
+:root[data-motion="off"]  .panel { scroll-snap-align: center; }
+
+/* Calm drops autonomous motion, not the reader's own hands: the rack is still
+   draggable, so it keeps the grab cursor and the pan-y gesture. With no
+   JavaScript there is nothing to drag, so the stage becomes inert. */
+:root[data-motion="off"] .stage { touch-action: auto; cursor: default; }

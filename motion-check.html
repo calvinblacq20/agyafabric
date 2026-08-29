@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" data-motion="off">
+<head>
+<meta charset="utf-8">
+<script>
+/* Same resolution the site uses, so this page reports the level the site
+   would actually pick on this device. */
+(function () {
+  var level = 'full';
+  try {
+    var forced = (location.search.match(/[?&]motion=(full|calm|off)/) || [])[1];
+    if (forced) level = forced;
+    else if (window.matchMedia &&
+             window.matchMedia('(prefers-reduced-motion: reduce)').matches) level = 'calm';
+  } catch (e) { /* keep 'full' */ }
+  document.documentElement.setAttribute('data-motion', level);
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Motion check — Uncle Agya</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --paper: #F3F0E9; --ink: #16130F; --dim: rgba(22,19,15,.5);
+    --line: rgba(22,19,15,.14); --good: #14603C; --bad: #9E2B22; --warn: #B4623A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 20px 18px 60px;
+    background: var(--paper); color: var(--ink);
+    font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  h1 { font-size: 20px; font-weight: 500; margin: 0 0 2px; letter-spacing: -.02em; }
+  .sub { color: var(--dim); font-size: 13px; margin-bottom: 22px; }
+  h2 {
+    font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--dim); margin: 26px 0 8px; padding-bottom: 7px; border-bottom: 1px solid var(--line);
+  }
+  .row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+    padding: 9px 0; border-bottom: 1px solid var(--line);
+  }
+  .row .k { color: var(--dim); font-size: 13px; }
+  .row .v { font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+  .good { color: var(--good); }
+  .bad  { color: var(--bad); }
+  .warn { color: var(--warn); }
+
+  .track {
+    position: relative; height: 34px; margin: 8px 0 4px;
+    background: rgba(22,19,15,.06); border-radius: 3px; overflow: hidden;
+  }
+  .track b {
+    position: absolute; top: 4px; left: 0; width: 58px; height: 26px;
+    border-radius: 2px; background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--paper); font-size: 9px; letter-spacing: .1em; font-weight: 600;
+  }
+  /* moved by CSS only — never touched by script */
+  .track.css b { animation: slide 2.2s linear infinite alternate; }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(calc(100vw - 94px)); } }
+  .caption { font-size: 12px; color: var(--dim); margin-bottom: 14px; }
+
+  .levels { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .levels a {
+    padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px;
+    color: var(--ink); text-decoration: none; font-size: 13px;
+  }
+  .levels a.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .note { font-size: 12.5px; color: var(--dim); margin-top: 22px; line-height: 1.5; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<h1>Motion check</h1>
+<div class="sub">Open this on the handset. Two seconds here beats an hour of theorising.</div>
+
+<h2>Two bars, two clocks</h2>
+<div class="track css"><b>CSS</b></div>
+<div class="caption">Moved by a CSS keyframe. Script never touches it.</div>
+<div class="track js"><b id="jsbar">JS</b></div>
+<div class="caption">Moved by requestAnimationFrame. If this one is stuck and the CSS bar is not, script is being throttled — not the compositor.</div>
+
+<h2>Resolved level</h2>
+<div class="row"><span class="k">html data-motion</span><span class="v" id="level">—</span></div>
+<div class="row"><span class="k">prefers-reduced-motion</span><span class="v" id="prm">—</span></div>
+<div class="row"><span class="k">forced by URL</span><span class="v" id="forced">—</span></div>
+<div class="levels">
+  <a href="?motion=full">full</a>
+  <a href="?motion=calm">calm</a>
+  <a href="?motion=off">off</a>
+  <a href="./motion-check.html">clear</a>
+</div>
+
+<h2>Is anything actually advancing</h2>
+<div class="row"><span class="k">frames delivered</span><span class="v" id="fps">—</span></div>
+<div class="row"><span class="k">longest gap between frames</span><span class="v" id="gap">—</span></div>
+<div class="row"><span class="k">rAF running</span><span class="v" id="raf">—</span></div>
+<div class="row"><span class="k">CSS animation advancing</span><span class="v" id="cssadv">—</span></div>
+<div class="row"><span class="k">document.timeline advancing</span><span class="v" id="timeline">—</span></div>
+<div class="row"><span class="k">visibilityState</span><span class="v" id="vis">—</span></div>
+<div class="row"><span class="k">watchdog restarts</span><span class="v" id="restarts">0</span></div>
+
+<h2>Device</h2>
+<div class="row"><span class="k">viewport</span><span class="v" id="vp">—</span></div>
+<div class="row"><span class="k">devicePixelRatio</span><span class="v" id="dpr">—</span></div>
+<div class="row"><span class="k">pointer</span><span class="v" id="ptr">—</span></div>
+<div class="row"><span class="k">touch points</span><span class="v" id="touch">—</span></div>
+
+<p class="note">
+  On iOS <code>prefers-reduced-motion</code> is true for Low Power Mode as well as the
+  Reduce&nbsp;Motion toggle, so a phone at 20% battery reports the same thing as one whose
+  owner asked for less movement. That is why the site treats it as <em>calm</em> — fades and
+  constant-rate loops keep running — rather than switching everything off.
+  <br><br>
+  Background this tab for a few seconds and come back: the gap figure should spike and then
+  recover. If it never recovers, the watchdog is not doing its job.
+</p>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var set = function (id, text, cls) {
+    var el = $(id); el.textContent = text;
+    el.className = 'v' + (cls ? ' ' + cls : '');
+  };
+
+  /* --- resolved level ------------------------------------------------- */
+  var level = document.documentElement.getAttribute('data-motion');
+  set('level', level, level === 'off' ? 'bad' : level === 'calm' ? 'warn' : 'good');
+
+  var prm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  set('prm', prm ? 'reduce' : 'no-preference', prm ? 'warn' : 'good');
+
+  var forced = (location.search.match(/[?&]motion=(full|calm|off)/) || [])[1];
+  set('forced', forced || 'no', forced ? 'warn' : '');
+
+  [].forEach.call(document.querySelectorAll('.levels a'), function (a) {
+    if (forced && a.getAttribute('href').indexOf(forced) > -1) a.className = 'on';
+  });
+
+  /* --- device --------------------------------------------------------- */
+  set('vp', innerWidth + ' x ' + innerHeight);
+  set('dpr', String(devicePixelRatio || 1));
+  set('ptr', matchMedia('(pointer: coarse)').matches ? 'coarse' : 'fine');
+  set('touch', String(navigator.maxTouchPoints || 0));
+
+  /* --- the JS bar and the frame clock --------------------------------- */
+  var bar = $('jsbar');
+  var x = 0, dir = 1;
+  var frames = 0, windowStart = 0, last = 0, worstGap = 0, restarts = 0;
+  var rafId = 0, lastBeat = performance.now();
+
+  function frame(now) {
+    rafId = requestAnimationFrame(frame);
+    lastBeat = now;
+
+    var dt = now - last;
+    if (!last || dt < 0 || dt > 100) dt = 16.7;      // clamp, same as the site
+    else if (dt > worstGap) worstGap = dt;
+    last = now;
+
+    // travel in pixels per second, not per frame
+    var span = Math.max(0, innerWidth - 94);
+    x += dir * (span / 2.2) * (dt / 1000);
+    if (x >= span) { x = span; dir = -1; }
+    if (x <= 0) { x = 0; dir = 1; }
+    bar.style.transform = 'translateX(' + x.toFixed(1) + 'px)';
+
+    frames++;
+    if (!windowStart) windowStart = now;
+    if (now - windowStart >= 500) {
+      var fps = Math.round(frames * 1000 / (now - windowStart));
+      set('fps', fps + ' fps', fps >= 50 ? 'good' : fps >= 25 ? 'warn' : 'bad');
+      set('gap', Math.round(worstGap) + ' ms', worstGap < 40 ? 'good' : worstGap < 200 ? 'warn' : 'bad');
+      frames = 0; windowStart = now; worstGap = 0;
+      set('raf', 'yes', 'good');
+      set('vis', document.visibilityState, document.visibilityState === 'visible' ? 'good' : 'warn');
+    }
+  }
+  requestAnimationFrame(frame);
+
+  /* --- watchdog, the same one the site runs ---------------------------- */
+  setInterval(function () {
+    if (performance.now() - lastBeat > 1200) {
+      set('raf', 'stalled — restarting', 'bad');
+      cancelAnimationFrame(rafId);
+      last = 0;
+      lastBeat = performance.now();
+      restarts++;
+      set('restarts', String(restarts), restarts ? 'warn' : '');
+      rafId = requestAnimationFrame(frame);
+    }
+  }, 1000);
+
+  /* --- do the OTHER clocks advance? ------------------------------------ */
+  var cssBar = document.querySelector('.track.css b');
+  function sampleCss() {
+    return getComputedStyle(cssBar).transform;
+  }
+  var css0 = sampleCss();
+  var t0 = document.timeline ? document.timeline.currentTime : null;
+
+  setTimeout(function () {
+    var moved = sampleCss() !== css0;
+    set('cssadv', moved ? 'yes' : 'no', moved ? 'good' : 'bad');
+
+    if (t0 === null || !document.timeline) {
+      set('timeline', 'unsupported', 'warn');
+    } else {
+      var advanced = document.timeline.currentTime > t0;
+      set('timeline', advanced ? 'yes' : 'no', advanced ? 'good' : 'bad');
+    }
+  }, 700);
+
+  addEventListener('resize', function () { set('vp', innerWidth + ' x ' + innerHeight); });
+  document.addEventListener('visibilitychange', function () {
+    set('vis', document.visibilityState, document.visibilityState === 'visible' ? 'good' : 'warn');
+  });
+})();
+</script>
+</body>
+</html>
