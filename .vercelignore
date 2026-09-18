@@ -2,4 +2,5 @@
 # app and route every request through it, instead of serving the static files.
 server.mjs
 
-.claude/
+# Hidden folders (editor and tool settings) are never part of the site.
+.*/
